@@ -1,9 +1,9 @@
 //設定DOM節點
-var btnArea = document.querySelector('.btn');
-var btn = document.querySelector('.button');
-var list = document.querySelector('.list');
-var data = JSON.parse(localStorage.getItem('listData')) || [];
-var del = document.querySelector('.deleteAll');
+const btnArea = document.querySelector('.btn');
+const btn = document.querySelector('.button');
+const list = document.querySelector('.list');
+const data = JSON.parse(localStorage.getItem('listData')) || [];
+const del = document.querySelector('.deleteAll');
 
 
 //建立監聽
@@ -15,7 +15,7 @@ del.addEventListener('click', delALL, false);
 updateList(data)// 更新資料
 
 // 將bmi各種層級的class以物件狀態管理,切記condition回傳的文字要與bmi各狀態名稱一致
-let bmiStatus = {
+const bmiStatus = {
     underweight: {
         class1: 'colorUnderweight',
         class2: 'borderUnderweight',
@@ -52,8 +52,8 @@ let bmiStatus = {
 function calculate(e) {
     if (e.target.nodeName === 'INPUT') {
         e.preventDefault();//取消Button的預設行為
-        var height = parseInt(document.getElementById('height').value, 10);//取出輸入的值
-        var weight = parseInt(document.getElementById('weight').value, 10);
+        const height = parseInt(document.getElementById('height').value, 10);//取出輸入的值
+        const weight = parseInt(document.getElementById('weight').value, 10);
         //檢查輸入資料
         if (height == '' || height == 0) {
             alert('請輸入數值,數值不可為0');
@@ -63,11 +63,11 @@ function calculate(e) {
             return;
         }
         //計算BMI並建立變數
-        var kg = weight;
-        var m = height / 100;
-        var bmi = (kg / (m * m)).toFixed(2) //toFixed()函數:四捨五入取小數點;
-        var status = '';
-        var condition = '';
+        const kg = weight;
+        const m = height / 100;
+        const bmi = (kg / (m * m)).toFixed(2) //toFixed()函數:四捨五入取小數點;
+        let status = '';
+        let condition = '';
         //判斷BMI
         if (bmi == 'NaN') {
             alert('請輸入數值')
@@ -93,17 +93,17 @@ function calculate(e) {
         }
 
         //日期時間
-        var date = new Date(); //以記憶目前時間的Date物件進行初始化
-        var yy = date.getFullYear();
-        var mm = (date.getMonth()) + 1; //月份從0開始計算;
-        var dd = date.getDate();
-        var time = mm + '-' + dd + '-' + yy;
+        const date = new Date(); //以記憶目前時間的Date物件進行初始化
+        const yy = date.getFullYear();
+        const mm = (date.getMonth()) + 1; //月份從0開始計算;
+        const dd = date.getDate();
+        const time = mm + '-' + dd + '-' + yy;
 
         //更改按鈕及狀態顏色並渲染到網頁上
         changeStatus(bmi, condition, status)
 
         //組成物件
-        var newData = {
+        const newData = {
             condition,
             status,
             bmi,
@@ -135,9 +135,9 @@ function reset(e) {
 
 //更新資料並渲染到網頁
 function updateList(items) {
-    var len = items.length;
-    var str = '';
-    for (var i = 0; i < len; i++) {
+    const len = items.length;
+    let str = '';
+    for (let i = 0; i < len; i++) {
         str += `
         <li>
           <p class="${items[i].condition}"></p> 
@@ -162,9 +162,9 @@ function updateList(items) {
 //單項刪除資料   
 function delData(e) {
     e.preventDefault();
-    var name = e.target.nodeName;
-    var index = e.target.dataset.index;
-    if (name == 'I') {
+    const name = e.target.nodeName;
+    const index = e.target.dataset.index;
+    if (name === 'I') {
         data.splice(index, 1);
         updateList(data);
         localStorage.setItem('listData', JSON.stringify(data));
@@ -179,7 +179,7 @@ function delALL() {
 
 //更改按鈕及狀態顏色並渲染到網頁上
 function changeStatus(bmi, condition,status) {
-    var str = '';
+    let str = '';
     str+=`
     <p class="newBtn ${bmiStatus[condition].class2}"></p>
     <p class="value ${bmiStatus[condition].class1}">${bmi}</p>
